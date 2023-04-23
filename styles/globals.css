@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply py-1 px-4 shadow-sm hover:shadow-md transition-all font-semibold rounded-md outline-none border-none ring-offset-2 ring-offset-neutral-950 tracking-wide focus-visible:ring-2 focus:scale-95 disabled:cursor-not-allowed disabled:opacity-75 disabled:shadow-none bg-teal-400 shadow-teal-800 hover:bg-teal-500 hover:shadow-teal-800 text-black ring-teal-400 disabled:hover:bg-teal-400;
+  }
+
+  .btn-red {
+    @apply bg-red-400 shadow-red-800 hover:bg-red-500 hover:shadow-red-800 text-black ring-red-400 disabled:hover:bg-red-400;
+  }
+}
