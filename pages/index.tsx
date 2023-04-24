@@ -1,28 +1,23 @@
 import { Post } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import useSWR, { Fetcher } from 'swr'
 
-export async function getServerSideProps() {
-  const res = await fetch('http://localhost:3000/api/post')
-  if (!res.ok) {
-    return {
-      props: {
-        posts: [],
-      },
-    }
-  }
+const fetcher: Fetcher<any, string> = (...args) =>
+  fetch(...args).then((res) => res.json())
 
-  const posts = await res.json()
-
-  return {
-    props: {
-      posts,
-    },
-  }
-}
-
-export default function Home({ posts }: { posts: Post[] }) {
+export default function Home() {
   const { data: session } = useSession()
+  const { data: posts, isLoading, error } = useSWR('/api/post', fetcher)
+
+  if (error)
+    return (
+      <div className='w-full p-5'>
+        <h1>No Posts 🥲</h1>
+      </div>
+    )
+  if (isLoading) return <div className='w-full p-5'>Loading...</div>
+
   return (
     <div className='w-full p-5'>
       {posts.map((post: Post) => (

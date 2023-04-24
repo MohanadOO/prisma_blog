@@ -24,7 +24,6 @@ export default async function handler(
   if (req.method === 'POST') {
     const { title, content } = req.body
     const session = await getServerSession(req, res, authOptions)
-
     if (session) {
       try {
         const result = await prisma.post.create({
@@ -45,7 +44,6 @@ export default async function handler(
 
   if (req.method === 'PATCH') {
     const { id, published } = req.body
-    console.log(id)
     if (!id || published === '') {
       return res.status(401).send({ message: 'Unauthorized' })
     }

@@ -1,13 +1,16 @@
 import { GetServerSidePropsContext } from 'next'
-import { getSession, signIn, useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import prisma from '../prisma/client'
 import Router from 'next/router'
 import { Post } from '@prisma/client'
+import { authOptions } from './api/auth/[...nextauth]'
+import { getServerSession } from 'next-auth'
+
 export async function getServerSideProps({
   req,
   res,
 }: GetServerSidePropsContext) {
-  const session = await getSession({ req })
+  const session = await getServerSession(req, res, authOptions)
   if (!session) {
     return { props: { drafts: [] } }
   }
@@ -70,7 +73,7 @@ export default function Draft({ drafts }: { drafts: Post[] }) {
                 onClick={(e: React.SyntheticEvent) =>
                   handlePost(e, draft.id, draft.published)
                 }
-                className='btn btn-teal mt-4'
+                className='btn mt-4'
               >
                 Publish
               </button>
