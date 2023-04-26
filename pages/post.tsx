@@ -10,7 +10,7 @@ export default function Post() {
 
   if (!session) {
     return (
-      <button className='btn mx-auto text-lg' onClick={() => signIn('google')}>
+      <button className='btn mx-auto text-lg' onClick={() => signIn()}>
         Sign In to create Posts
       </button>
     )

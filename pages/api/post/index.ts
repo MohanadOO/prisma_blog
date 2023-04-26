@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from './../../../prisma/client'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../auth/[...nextauth]'
+import { authOptions, getServerAuthSession } from '../auth/[...nextauth]'
 
 export default async function handler(
   req: NextApiRequest,
@@ -23,7 +23,7 @@ export default async function handler(
 
   if (req.method === 'POST') {
     const { title, content } = req.body
-    const session = await getServerSession(req, res, authOptions)
+    const session = await getServerAuthSession(req, res)
     if (session) {
       try {
         const result = await prisma.post.create({
@@ -48,7 +48,7 @@ export default async function handler(
       return res.status(401).send({ message: 'Unauthorized' })
     }
 
-    const session = await getServerSession(req, res, authOptions)
+    const session = await getServerAuthSession(req, res)
     if (session) {
       try {
         const result = await prisma.post.update({
@@ -65,7 +65,7 @@ export default async function handler(
   if (req.method === 'DELETE') {
     const id = req.query.id
     if (!id) res.status(401).send({ message: 'ID not found' })
-    const session = await getServerSession(req, res, authOptions)
+    const session = await getServerAuthSession(req, res)
     if (session) {
       try {
         await prisma.post.delete({

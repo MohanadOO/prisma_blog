@@ -32,7 +32,7 @@ export default function Nav() {
         ))}
         <li className='ml-auto flex gap-2 text-sm'>
           {!session ? (
-            <button className='btn' onClick={() => signIn('google')}>
+            <button className='btn' onClick={() => signIn()}>
               Sign in
             </button>
           ) : (

@@ -3,14 +3,13 @@ import { signIn, useSession } from 'next-auth/react'
 import prisma from '../prisma/client'
 import Router from 'next/router'
 import { Post } from '@prisma/client'
-import { authOptions } from './api/auth/[...nextauth]'
-import { getServerSession } from 'next-auth'
+import { getServerAuthSession } from './api/auth/[...nextauth]'
 
 export async function getServerSideProps({
   req,
   res,
 }: GetServerSidePropsContext) {
-  const session = await getServerSession(req, res, authOptions)
+  const session = await getServerAuthSession(req, res)
   if (!session) {
     return { props: { drafts: [] } }
   }
@@ -31,7 +30,7 @@ export default function Draft({ drafts }: { drafts: Post[] }) {
 
   if (!session) {
     return (
-      <button className='btn text-lg mx-auto' onClick={() => signIn('google')}>
+      <button className='btn text-lg mx-auto' onClick={() => signIn()}>
         Sign In to see Drafts
       </button>
     )
