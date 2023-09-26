@@ -1,3 +1,5 @@
+import { profanity } from '@/lib/profanity'
+import { CensorType } from '@2toad/profanity/dist/models'
 import { Post } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
@@ -22,8 +24,12 @@ export default function Home() {
     <div className='w-full p-5'>
       {posts.map((post: Post) => (
         <div key={post.id} className='py-5 border-b border-teal-400 px-5'>
-          <h1 className='font-bold text-2xl'>{post.title}</h1>
-          <p className='text-lg mt-4'>{post.content}</p>
+          <h1 className='font-bold text-2xl'>
+            {profanity.censor(post.title, CensorType.FirstVowel)}
+          </h1>
+          <p className='text-lg mt-4'>
+            {profanity.censor(post.content || '', CensorType.FirstVowel)}
+          </p>
           {session?.user && post.authorId === session.user?.id && (
             <Link href='/draft' className='btn inline-block mt-4'>
               Edit

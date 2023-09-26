@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next'
 import { signIn, useSession } from 'next-auth/react'
 import prisma from '../prisma/client'
 import Router from 'next/router'
-import { Post } from '@prisma/client'
+import type { Post } from '@prisma/client'
 import { getServerAuthSession } from './api/auth/[...nextauth]'
 
 export async function getServerSideProps({
